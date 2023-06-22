@@ -13,6 +13,13 @@ pipeline {
 
     stages {
         
+        stage('Install zip') {
+            steps {
+                sh 'sudo apt update'
+                sh 'sudo apt install -y zip'
+            }
+        }
+
 
         stage('Building the docker image') {
             steps {
