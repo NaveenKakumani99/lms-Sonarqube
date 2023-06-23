@@ -83,7 +83,11 @@ Suresh''', recipientProviders: [buildUser()], subject: 'Build Successful !! lms_
         }
         failure {
             script {
-                slackSend channel: 'jenkins', color: 'danger', message: 'hii...i am suresh check the job configurations build failed - Job failed', tokenCredentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79'
+                slackSend channel: 'jenkins', color: 'danger', message: 'Sorry..Failed!! check the Back-end job configurations build failed - Job failed', tokenCredentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79'
+                emailext body: '''lms_backend job build failed check job configurations 
+
+ThankYou,
+Suresh''', recipientProviders: [buildUser()], subject: 'Build failed!! lms_backend', to: 'yoursureshb@gmail.com'
             }
         }
     }
