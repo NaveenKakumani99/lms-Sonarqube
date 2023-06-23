@@ -73,7 +73,8 @@ pipeline {
     post {
         success {
             script {
-                slackSend channel: 'jenkins', color: 'good', message: 'hii...i am suresh congratulations build succeeded', tokenCredentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79'
+                slackSend channel: 'jenkins', color: 'good', message: 'hi..CONGRATULATIONS!!! build succeeded', tokenCredentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79'
+                slackUploadFile channel: 'jenkins', credentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79', filePath: 'api/jenkinsfile-api'
             }
         }
         failure {
