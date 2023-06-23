@@ -90,19 +90,19 @@ pipeline {
             script {
                 slackSend channel: 'jenkins', color: 'good', message: 'hi..CONGRATULATIONS Front-end job success !!!  Front_end build succeeded Thanks...Suresh', tokenCredentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79'
                 slackUploadFile channel: 'jenkins', credentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79', filePath: 'webapp/frontend'
-                emailext body: '''front-end job build success 
+                emailext body: ''' building lms application frontend job got success check browser with your ip or domain name. 
 
 ThankYou,
-Suresh''', recipientProviders: [buildUser()], subject: 'Front-end Build Successful !!', to: 'yoursureshb@gmail.com'
+Suresh''', recipientProviders: [buildUser()], subject: 'Build Successful !! lms_frontend', to: 'yoursureshb@gmail.com'
             }
         }
         failure {
             script {
-                slackSend channel: 'jenkins', color: 'danger', message: 'oops..Front-end JOB-FAILED!!! check the front-end job configurations Thanks...Suresh - Job failed', tokenCredentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79'
-                emailext body: '''job build failed check front_end job configurations 
+                slackSend channel: 'jenkins', color: 'danger', message: 'Oops..FAILED Front-end job failed !!! check the front-end job configurations Thanks...Suresh - Job failed', tokenCredentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79'
+                emailext body: '''building lms application frontend job got failed check job configuration.  
 
 ThankYou,
-Suresh''', recipientProviders: [buildUser()], subject: 'Front-end Build failed !!!', to: 'yoursureshb@gmail.com'
+Suresh''', recipientProviders: [buildUser()], subject: 'Build failed !! lms_frontend', to: 'yoursureshb@gmail.com'
             }
         }
     }
