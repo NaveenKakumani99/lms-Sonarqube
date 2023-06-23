@@ -73,9 +73,9 @@ pipeline {
     post {
         success {
             script {
-                slackSend channel: 'jenkins', color: 'good', message: 'hi..CONGRATULATIONS!!! build succeeded-lms_backend', tokenCredentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79'
+                slackSend channel: 'jenkins', color: 'good', message: 'hi..CONGRATULATIONS!!! Backend job succeeded', tokenCredentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79'
                 slackUploadFile channel: 'jenkins', credentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79', filePath: 'api/jenkinsfile-api'
-                emailext body: '''job build success 
+                emailext body: '''building lms application backend job got success check browser with your ip:port number/api. it will show success 
 
 ThankYou,
 Suresh''', recipientProviders: [buildUser()], subject: 'Build Successful !! lms_backend', to: 'yoursureshb@gmail.com'
@@ -83,8 +83,8 @@ Suresh''', recipientProviders: [buildUser()], subject: 'Build Successful !! lms_
         }
         failure {
             script {
-                slackSend channel: 'jenkins', color: 'danger', message: 'Sorry..Failed!! check the Back-end job configurations build failed - Job failed', tokenCredentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79'
-                emailext body: '''lms_backend job build failed check job configurations 
+                slackSend channel: 'jenkins', color: 'danger', message: 'Ooops..Failed!!check the back-end job configurations Thanks...Suresh - Job failed', tokenCredentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79'
+                emailext body: '''building lms application backend job got failed check job configuration.
 
 ThankYou,
 Suresh''', recipientProviders: [buildUser()], subject: 'Build failed!! lms_backend', to: 'yoursureshb@gmail.com'
