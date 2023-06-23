@@ -73,8 +73,12 @@ pipeline {
     post {
         success {
             script {
-                slackSend channel: 'jenkins', color: 'good', message: 'hi..CONGRATULATIONS!!! build succeeded', tokenCredentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79'
+                slackSend channel: 'jenkins', color: 'good', message: 'hi..CONGRATULATIONS!!! build succeeded-lms_backend', tokenCredentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79'
                 slackUploadFile channel: 'jenkins', credentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79', filePath: 'api/jenkinsfile-api'
+                emailext body: '''job build success 
+
+ThankYou,
+Suresh''', recipientProviders: [buildUser()], subject: 'Build Successful !! lms_backend', to: 'yoursureshb@gmail.com'
             }
         }
         failure {
