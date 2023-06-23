@@ -84,4 +84,18 @@ pipeline {
             }
         }
     }
+
+    post {
+        success {
+            script {
+                slackSend channel: 'jenkins', color: 'good', message: 'hi..CONGRATULATIONS!!! build succeeded Thanks...Suresh', tokenCredentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79'
+                slackUploadFile channel: 'jenkins', credentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79', filePath: 'webapp/frontend'
+            }
+        }
+        failure {
+            script {
+                slackSend channel: 'jenkins', color: 'danger', message: 'oops..JOB-FAILED!!! check the job configurations Thanks...Suresh - Job failed', tokenCredentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79'
+            }
+        }
+    }
 }
