@@ -13,12 +13,22 @@ pipeline {
 
     stages {
         
-        stage('Install zip') {
+
+        stage('Check zip installation') {
             steps {
-                sh 'sudo apt update'
-                sh 'sudo apt install -y zip'
+                script {
+                    def zipInstalled = sh(script: 'dpkg -s zip', returnStatus: true)
+                    if (zipInstalled == 0) {
+                        echo 'zip is already installed'
+                    } else {
+                        echo 'zip is not installed, installing...'
+                        sh 'sudo apt update'
+                        sh 'sudo apt install -y zip'
+                    }
+                }
             }
-        }
+          }
+
 
         stage('Release LMS') {
             steps {
