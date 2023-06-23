@@ -75,9 +75,6 @@ pipeline {
         stage('slack message') {
             steps {
                 // Build steps here
-            }
-        }
-    
     
     post {
         success {
@@ -93,4 +90,5 @@ pipeline {
     }
 }
 }
-
+}
+}
