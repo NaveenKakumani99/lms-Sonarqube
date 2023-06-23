@@ -14,7 +14,7 @@ pipeline {
     stages {
         
 
-        stage('Check zip installation') {
+        stage('installing zip') {
             steps {
                 script {
                     def zipInstalled = sh(script: 'dpkg -s zip', returnStatus: true)
@@ -30,7 +30,7 @@ pipeline {
           }
 
 
-        stage('Release LMS') {
+        stage('uploading artifacts') {
             steps {
                 script {
                     echo "Releasing.."       
@@ -43,13 +43,13 @@ pipeline {
             }
         }
 
-        stage('Building the docker image') {
+        stage('Building frontend image') {
             steps {
                 sh 'cd webapp && docker build -t yoursureshdockerhub/lms-frontend .'
             }
         }
 
-        stage('lms-app frontend code quality check with sonarqube') {
+        stage('sonarqube code-checking') {
             steps {
                
                 sh 'docker container run --rm -e SONAR_HOST_URL="http://4.213.1.174:9000" -e SONAR_LOGIN="sqp_13e1c7403efb97927cbaead0ac40974799e29cce" -v ".:/usr/src" sonarsource/sonar-scanner-cli -Dsonar.projectKey=lms-app'
@@ -59,25 +59,25 @@ pipeline {
 
 
 
-        stage('Logging into dockerhub account') {
+        stage('docker-login') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
 
-        stage('pushing the docker image into dockerhub') {
+        stage('pushing image') {
             steps {
                   sh 'docker push yoursureshdockerhub/lms-frontend'
             }
         }
 
-        stage('Remove old docker images') {
+        stage('Remove old images') {
              steps {
                  sh 'docker rmi -f yoursureshdockerhub/lms-frontend'
             }
         }
 
-         stage('Running the docker container') {
+         stage('Running image(container)') {
             steps {
                   sh 'docker container rm --force f-end'
                   sh 'docker run -dt -p 8000:80 --name f-end yoursureshdockerhub/lms-frontend'
