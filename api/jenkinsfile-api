@@ -11,7 +11,21 @@ pipeline {
     }
 
     stages {
-        stage('Creating network') {
+      
+                stage('pipeline status to slack') {
+            steps {
+                script {
+                    slackSend channel: 'jenkins',
+                            color: '#1e1ec9',
+                            message: 'lms-Backend Pipeline has been Started',
+                            tokenCredentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79'
+                }
+            }
+        }
+
+
+
+         stage('Creating network') {
             steps {
                 script {
                     def networkExists = sh(script: 'docker network ls -q -f name=lmsnetwork', returnStatus: true)
