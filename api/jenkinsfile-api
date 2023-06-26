@@ -12,7 +12,7 @@ pipeline {
 
     stages {
       
-                stage('pipeline status to slack') {
+                stage('pipeline status') {
             steps {
                 script {
                     slackSend channel: 'jenkins',
