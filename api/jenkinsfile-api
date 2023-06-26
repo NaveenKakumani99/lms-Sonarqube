@@ -45,7 +45,7 @@ pipeline {
             }
         }
 
-        stage('sonarqube code-checking') {
+        stage('sonarqube analysis') {
             steps {
                 sh 'docker container run --rm -e SONAR_HOST_URL="http://4.213.1.174:9000" -e SONAR_LOGIN="sqp_13e1c7403efb97927cbaead0ac40974799e29cce" -v ".:/usr/src" sonarsource/sonar-scanner-cli -Dsonar.projectKey=lms-app'
             }
@@ -76,7 +76,7 @@ pipeline {
             }
         }
 
-        stage('Running image(container)') {
+        stage('Running container') {
             steps {
                 sh 'docker container rm --force backend'
                 sh 'docker run -d -p 8080:8080 --network lmsnetwork -e DATABASE_URL=postgresql://postgres:password@lmsdb:5432/postgres --name backend -e PORT=8080 -e MODE=local yoursureshdockerhub/lms-backend'
