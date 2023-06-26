@@ -13,7 +13,7 @@ pipeline {
 
     stages {
         
-         stage('pipeline status to slack') {
+         stage('pipeline status') {
             steps {
                 script {
                     slackSend channel: 'jenkins',
@@ -26,7 +26,7 @@ pipeline {
         
 
 
-         stage('uploading artifacts') {
+         stage('nexus artifacts') {
             steps {
                 script {
                     def zipInstalled = sh(script: 'dpkg -s zip', returnStatus: true)
@@ -71,7 +71,7 @@ pipeline {
             }
         }
 
-        stage('pushing image') {
+        stage('pushing image to dockerhub') {
             steps {
                   sh 'docker push yoursureshdockerhub/lms-frontend'
             }
@@ -83,7 +83,7 @@ pipeline {
             }
         }
 
-         stage('Running image(container)') {
+         stage('Running container') {
             steps {
                   sh 'docker container rm --force f-end'
                   sh 'docker run -dt -p 8000:80 --name f-end yoursureshdockerhub/lms-frontend'
