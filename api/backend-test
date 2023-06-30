@@ -11,8 +11,8 @@ pipeline {
         registryCredential = 'docker credentials'
         dockerImage = ''
     }
-
-stage('creating dockernetwork') {
+stages{
+    stage('creating dockernetwork') {
     steps {
         if (condition) {
             sh 'docker network create lmsnetwork'
