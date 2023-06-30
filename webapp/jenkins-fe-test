@@ -5,9 +5,9 @@ pipeline {
 
     environment {
 
-    DOCKERHUB_CREDENTIALS = credentials('yoursureshdockerhub')
+    DOCKERHUB_CREDENTIALS = credentials('docker credentials')
      registry = "yoursureshdockerhub/frontend"
-        registryCredential = 'yoursureshdockerhub'
+        registryCredential = 'docker credentials'
     }
 
     stages {
