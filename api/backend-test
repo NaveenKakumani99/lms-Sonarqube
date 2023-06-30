@@ -1,0 +1,56 @@
+Jenkins file 
+pipeline {
+    agent{
+       label 'slavenode'
+    }
+
+    environment {
+
+    DOCKERHUB_CREDENTIALS = credentials('docker credentials')
+     registry = "yoursureshdockerhub/backend"
+        registryCredential = 'docker credentials'
+        dockerImage = ''
+    }
+
+    stages {
+
+        stage('creating dockernetwork') {
+            steps {
+                sh 'docker network create lmsnetwork'
+            }
+        }        
+        
+        stage('Building the docker image') {
+            steps {
+                sh 'cd api && docker build -t yoursureshdockerhub/backend .'
+            }
+        }
+        stage('Logging into dockerhub account') {
+            steps {
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
+        stage('pushing the docker image into dockerhub') {
+            steps {
+                  sh 'docker push yoursureshdockerhub/backend'
+            }
+        }
+        stage('Remove old docker images') {
+             steps {
+                 sh 'docker rmi -f yoursureshdockerhub/backend'
+            }
+        }
+         stage('creating database container') {
+             steps {
+                 sh 'docker container rm --force lmsdb'
+                 sh 'docker run -d -p 5432:5432 --network lmsnetwork -e  POSTGRES_PASSWORD=password --name lmsdb postgres'
+            }
+        }
+         stage('Running the docker container') {
+            steps {
+                  sh 'docker container rm --force backend'
+                  sh 'docker run -d -p 8080:8080 --network lmsnetwork -e DATABASE_URL=postgresql://postgres:password@lmsdb:5432/postgres --name backend -e PORT=8080 -e MODE=local  yoursureshdockerhub/backend'
+            }
+        }
+    }
+}
