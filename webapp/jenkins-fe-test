@@ -40,11 +40,7 @@ pipeline {
             }
         }
 
-        stage('Remove old images') {
-             steps {
-                 sh 'docker rmi -f yoursureshdockerhub/jenkins-test-fe'
-            }
-        }
+
 
          stage('Running container') {
             steps {
