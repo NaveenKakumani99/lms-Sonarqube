@@ -6,7 +6,7 @@ pipeline {
     environment {
 
     DOCKERHUB_CREDENTIALS = credentials('docker credentials')
-     registry = "yoursureshdockerhub/jenkins-test-fe"
+     registry = "yoursureshdockerhub/lms"
         registryCredential = 'docker credentials'
         dockerImage = ''
     }
@@ -17,7 +17,7 @@ pipeline {
 
         stage('Building frontend image') {
             steps {
-                sh 'cd webapp && docker build -t yoursureshdockerhub/jenkins-test-fe .'
+                sh 'cd webapp && docker build -t yoursureshdockerhub/lms .'
             }
         }
 
@@ -36,7 +36,7 @@ pipeline {
 
         stage('pushing image to dockerhub') {
             steps {
-                  sh 'docker push yoursureshdockerhub/jenkins-test-fe'
+                  sh 'docker push yoursureshdockerhub/lms'
             }
         }
 
@@ -45,7 +45,7 @@ pipeline {
          stage('Running container') {
             steps {
                   sh 'docker container rm --force f-end'
-                  sh 'docker run -dt -p 8000:8000 --name f-end yoursureshdockerhub/jenkins-test-fe'
+                  sh 'docker run -dt -p 8000:8000 --name f-end yoursureshdockerhub/lms'
             }
         }
     }
