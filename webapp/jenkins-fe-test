@@ -45,7 +45,7 @@ pipeline {
          stage('Running container') {
             steps {
                   sh 'docker container rm --force f-end'
-                  sh 'docker run -dt -p 8000:8000 --name f-end yoursureshdockerhub/lms'
+                  sh 'docker run -dt -p 80:80 --name f-end yoursureshdockerhub/lms'
             }
         }
     }
