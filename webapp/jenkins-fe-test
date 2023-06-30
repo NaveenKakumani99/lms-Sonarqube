@@ -1,13 +1,13 @@
 pipeline {
     agent {
-      label ''
+      label 'lms-slave'
     }
 
     environment {
 
-    DOCKERHUB_CREDENTIALS = credentials('dockeruser')
-     registry = "mubeen507/frontend-lms"
-        registryCredential = 'dockerhub'
+    DOCKERHUB_CREDENTIALS = credentials('docker credentials')
+     registry = "yoursureshdockerhub/jenkins-test-fe"
+        registryCredential = 'docker credentials'
     }
 
     stages {
