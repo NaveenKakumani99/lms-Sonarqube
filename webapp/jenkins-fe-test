@@ -8,35 +8,48 @@ pipeline {
     DOCKERHUB_CREDENTIALS = credentials('docker credentials')
      registry = "yoursureshdockerhub/jenkins-test-fe"
         registryCredential = 'docker credentials'
+        dockerImage = ''
     }
 
     stages {
         
 
-        stage('Building the docker image') {
+
+        stage('Building frontend image') {
             steps {
                 sh 'cd webapp && docker build -t yoursureshdockerhub/jenkins-test-fe .'
             }
         }
-        stage('Logging into dockerhub account') {
+
+
+
+
+
+
+
+
+        stage('docker-login') {
             steps {
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
-        stage('pushing the docker image into dockerhub') {
+
+        stage('pushing image to dockerhub') {
             steps {
                   sh 'docker push yoursureshdockerhub/jenkins-test-fe'
             }
         }
-        stage('Remove old docker images') {
+
+        stage('Remove old images') {
              steps {
                  sh 'docker rmi -f yoursureshdockerhub/jenkins-test-fe'
             }
         }
-         stage('Running the docker container') {
+
+         stage('Running container') {
             steps {
-                  sh 'docker container rm --force fe'
-                  sh 'docker run -dt -p 8000:80 --name fe yoursureshdockerhub/jenkins-test-fe'
+                  sh 'docker container rm --force f-end'
+                  sh 'docker run -dt -p 8000:80 --name f-end yoursureshdockerhub/jenkins-test-fe'
             }
         }
     }
