@@ -14,14 +14,16 @@ pipeline {
 
     stages {
 
-      steps {
-        if (condition) {
+     stage('creating dockernetwork') {
+        steps {
+         if (condition) {
             sh 'docker network create lmsnetwork'
-        } else {
+            } else {
             // Perform alternative steps or skip this stage
             echo 'Skipping Docker network creation'
-           }
-       }       
+        }
+    }
+    }      
         
         stage('Building the docker image') {
             steps {
