@@ -1,12 +1,13 @@
 pipeline {
     agent {
-      label 'lms-slavenode'
+      label 'slave-node'
     }
 
     environment {
 
-    DOCKERHUB_CREDENTIALS = credentials('yoursureshdockerhub')
-     registry = "yoursureshdockerhub/lms-frontend"
-        registryCredential = 'yoursureshdockerhub'
+    DOCKERHUB_CREDENTIALS = credentials('naveen1016')
+     registry = "naveen1016/lms-frontend-new"
+        registryCredential = 'naveen1016'
         dockerImage = ''
     }
+}
