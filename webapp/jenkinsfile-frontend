@@ -75,10 +75,10 @@ success {
             tokenCredentialId: 'jenkin-project'
         )
 
-        emailext body: 'lms frontend build success',
+        emailext body: 'building lms application frontend job got success check browser with your ip or domain name.  thankyou naveen',
             recipientProviders: [developers()],
             subject: 'build successed',
-            to: 'yoursureshb@gmail.com'
+            to: 'menaveen1016@gmail.com'
     }
 }
     failure {
@@ -90,13 +90,10 @@ success {
                 tokenCredentialId: 'jenkin-project'
 
             )
-                emailext body: '''building lms application frontend job got failed check job configuration.
-                
-                ThankYou,
-                Suresh''',
-                recipientProviders: [buildUser()],
-                subject: 'Build failed !! lms_frontend',
-                to: 'menaveen1016@gmail.com'
+            emailext body: '''building lms application frontend job got failed check job configuration.
+            recipientProviders: [developers()],
+            subject: 'build successed',
+            to: 'menaveen1016@gmail.com'
         }
     }
 }
