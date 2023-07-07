@@ -42,11 +42,11 @@ pipeline {
         stage('nexus')  {
             steps {
                 script {
-                    echo "Releasing.."                           
-                    sh "zip webapp/dist-${packageJSONVersion}.zip -r webapp/dist"
+                    echo "Releasing.." 
                     def packageJSON = readJSON file: 'webapp/package.json'
                     def packageJSONVersion = packageJSON.version
                     echo "${packageJSONVersion}"  
+                    sh "zip webapp/dist-${packageJSONVersion}.zip -r webapp/dist"
                     sh "curl -v -u admin:admin1 --upload-file webapp/dist-${packageJSONVersion}.zip http://35.78.212.74:8081/repository/lmsapplication/"     
             }
             }
