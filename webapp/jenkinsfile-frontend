@@ -39,19 +39,51 @@ pipeline {
             }
         }
 
-        stage('nexus')  {
+        stage('docker-login') {
             steps {
-                script {
-                    echo "Releasing.." 
-                    def packageJSON = readJSON file: 'webapp/package.json'
-                    def packageJSONVersion = packageJSON.version
-                    echo "${packageJSONVersion}"  
-                    sh "zip webapp/dist-${packageJSONVersion}.zip -r webapp/dist"
-                    sh "curl -v -u admin:admin1 --upload-file webapp/dist-${packageJSONVersion}.zip http://35.78.212.74:8081/repository/lmsapplication/"     
-            }
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
 
+        stage('pushing image to dockerhub') {
+            steps {
+                  sh 'docker push naveen1016/lms-frontend'
+            }
+        }
 
-      }
-}
+        stage('Remove old images') {
+             steps {
+                 sh 'docker rmi -f naveen1016/lms-frontend'
+            }
+        }
+
+         stage('Running container') {
+            steps {
+                  sh 'docker container rm --force f-end'
+                  sh 'docker run -dt -p 8000:80 --name f-end naveen1016/lms-frontend'
+            }
+        }
+    }
+
+    post {
+        success {
+            script {
+                slackSend channel: 'jenkins', color: 'good', message: 'hi..CONGRATULATIONS Front-end job success !!!  Front_end build succeeded Thanks...Suresh', tokenCredentialId: 'jenkin-project'
+              
+
+            }
+        }
+        failure {
+            script {
+                slackSend channel: 'jenkins', color: 'danger', message: 'Oops..FAILED Front-end job failed !!! check the front-end job configurations Thanks...Suresh - Job failed', tokenCredentialId: 'jenkin-project'
+                 
+
+
+            }
+        }
+        }
+  }
+
+
+      
+
