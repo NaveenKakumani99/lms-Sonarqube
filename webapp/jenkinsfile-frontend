@@ -19,7 +19,6 @@ pipeline {
                     slackSend channel: 'jenkins-notifications',
                         color: 'good',
                         message: 'pipeline started - frontend',
-                        teamDomain: 'jenkins-project',
                         tokenCredentialId: 'jenkins-project'
                 }
             }
