@@ -35,7 +35,7 @@ pipeline {
 
         stage('Building frontend image') {
             steps {
-                sh 'cd webapp && docker build -t naveen1016/lms-frontend .'
+                sh '//cd webapp && docker build -t naveen1016/lms-frontend .'
             }
         }
 
@@ -99,7 +99,7 @@ post {
                 Suresh''',
                 recipientProviders: [buildUser()],
                 subject: 'Build failed !! lms_frontend',
-                to: 'yoursureshb@gmail.com'
+                to: 'menaveen1016@gmail.com'
         }
     }
 }
