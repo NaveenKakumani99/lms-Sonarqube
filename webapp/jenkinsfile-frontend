@@ -66,24 +66,21 @@ pipeline {
     }
 
 post {
-    success {
-        script {
-            slackSend(
-                channel: 'jenkins-notifications',
-                color: 'good',
-                message: 'hi..CONGRATULATIONS Front-end job success !!! Front_end build succeeded Thanks...Suresh',
-                tokenCredentialId: 'jenkin-project'
+success {
+    script {
+        slackSend(
+            channel: 'jenkins-notifications',
+            color: 'good',
+            message: 'hi..CONGRATULATIONS Front-end job success !!! Front_end build succeeded Thanks...Suresh',
+            tokenCredentialId: 'jenkin-project'
+        )
 
-            )
-                emailext body: '''building lms application frontend job got success.
-                
-                ThankYou,
-                Suresh''',
-                recipientProviders: [buildUser()],
-                subject: 'Build success !! lms_frontend',
-                to: 'yoursureshb@gmail.com'
-        }
+        emailext body: 'lms frontend build success',
+            recipientProviders: [developers()],
+            subject: 'build successed',
+            to: 'yoursureshb@gmail.com'
     }
+}
     failure {
         script {
             slackSend(
