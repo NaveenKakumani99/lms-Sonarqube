@@ -1,12 +1,12 @@
 pipeline {
     agent {
-      label 'slave-node'
+      label 'lms-slave'
     }
 
     environment {
 
     DOCKERHUB_CREDENTIALS = credentials('naveen1016')
-     registry = "naveen1016/lms-frontend-new"
+     registry = "naveen1016/lms-frontend"
         registryCredential = 'naveen1016'
         dockerImage = ''
     }
@@ -17,14 +17,14 @@ pipeline {
          stage('sonarqube analysis') {
             steps {
                
-                sh 'docker container run --rm -e SONAR_HOST_URL="http://35.74.235.61:9000" -e SONAR_LOGIN="sqp_8789082d8a21a1485de19360c12263b647472e8a" -v ".:/usr/src" sonarsource/sonar-scanner-cli -Dsonar.projectKey=lms'
+                sh 'docker container run --rm -e SONAR_HOST_URL="http://35.75.18.38:9000" -e SONAR_LOGIN="sqp_5552f71195d24db2bd3a3d4733c2fc932b3602b0" -v ".:/usr/src" sonarsource/sonar-scanner-cli -Dsonar.projectKey=lms'
             }
           
         }       
 
         stage('Building frontend image') {
             steps {
-                sh 'cd webapp && docker build -t naveen1016/lms-frontend-new .'
+                sh 'cd webapp && docker build -t naveen1016/lms-frontend .'
             }
         }
     }
