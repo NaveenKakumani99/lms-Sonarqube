@@ -65,30 +65,28 @@ pipeline {
         }
     }
 
-    post {
-        success {
-            script {
-            script {
-                slackSend(
-                    channel: 'jenkins-notifications',
-                    color: 'good',
-                    message: 'hi..CONGRATULATIONS Front-end job success !!! Front_end build succeeded Thanks...Suresh',
-                    tokenCredentialId: 'jenkin-project'
-                )
-            }
-        }
-        failure {
-            script {
-                slackSend(
-                    channel: 'jenkins-notifications',
-                    color: 'danger',
-                    message: 'Front-end job failed. Please check the build logs for more details. Thanks...Suresh',
-                    tokenCredentialId: 'jenkin-project'
-                )
-            }
+post {
+    success {
+        script {
+            slackSend(
+                channel: 'jenkins-notifications',
+                color: 'good',
+                message: 'hi..CONGRATULATIONS Front-end job success !!! Front_end build succeeded Thanks...Suresh',
+                tokenCredentialId: 'jenkin-project'
+            )
         }
     }
-  }
+    failure {
+        script {
+            slackSend(
+                channel: 'jenkins-notifications',
+                color: 'danger',
+                message: 'Front-end job failed. Please check the build logs for more details. Thanks...Suresh',
+                tokenCredentialId: 'jenkin-project'
+            )
+        }
+    }
+}
 }
 
 
