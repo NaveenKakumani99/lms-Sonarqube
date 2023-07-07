@@ -12,6 +12,14 @@ pipeline {
     }
 
     stages {
+
+        stage('Notify Slack') {
+            steps {
+                script {
+                    slackSend channel: 'jenkins-notifications', message: 'pipeline started - frontend'
+                }
+            }
+       }
         
 
          stage('sonarqube analysis') {
