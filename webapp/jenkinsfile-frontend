@@ -16,10 +16,14 @@ pipeline {
         stage('Notify Slack') {
             steps {
                 script {
-                    slackSend channel: 'jenkins-notifications', color: 'good ', message: 'pipeline started -frontend', teamDomain: 'jenkins-project', tokenCredentialId: 'jenkin-project'
+                    slackSend channel: 'jenkins-notifications',
+                        color: 'good',
+                        message: 'pipeline started - frontend',
+                        teamDomain: 'jenkins-project',
+                        tokenCredentialId: 'jenkins-project'
                 }
             }
-       }
+        }
         
 
          stage('sonarqube analysis') {
