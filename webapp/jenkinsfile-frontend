@@ -19,7 +19,7 @@ pipeline {
                     slackSend channel: 'jenkins-notifications',
                             color: '#1e1ec9',
                             message: 'lms-Frontend Pipeline has been Started',
-                            tokenCredentialId: 'jenkins-project'
+                            tokenCredentialId: 'jenkin-project'
                 }
             }
         }
