@@ -35,7 +35,7 @@ pipeline {
 
         stage('Building frontend image') {
             steps {
-                sh 'cd webapp && docker build -t naveen1016/lms-frontend .'
+                sh '//cd webapp && docker build -t naveen1016/lms-frontend .'
             }
         }
 
