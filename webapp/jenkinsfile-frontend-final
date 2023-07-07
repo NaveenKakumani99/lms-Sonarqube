@@ -17,7 +17,7 @@ pipeline {
             steps {
                 script {
                     slackSend channel: 'jenkins',
-                            color: '#1e1ec9',
+                            color: '#ffa500',
                             message: 'lms-Frontend Pipeline has been Started',
                             tokenCredentialId: '39bdd4ec-778b-421e-afa7-43e64c149c79'
                 }
