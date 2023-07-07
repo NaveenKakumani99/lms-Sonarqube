@@ -38,5 +38,29 @@ pipeline {
                 sh 'cd webapp && docker build -t naveen1016/lms-frontend .'
             }
         }
-    }
+
+         stage('nexus artifacts') {
+            steps {
+                script {
+                    def zipInstalled = sh(script: 'dpkg -s zip', returnStatus: true)
+                    if (zipInstalled == 0) {
+                        echo 'zip is already installed'
+                    } else {
+                        echo 'zip is not installed, installing...'
+                        sh 'sudo apt update'
+                        sh 'sudo apt install -y zip'
+                    }
+                }
+                script {
+                    echo "Releasing.."       
+                    def packageJSON = readJSON file: 'webapp/package.json'
+                    def packageJSONVersion = packageJSON.version
+                    echo "${packageJSONVersion}"  
+                    sh "zip -r webapp/dist-0.0.0.zip . -i webapp/dist"
+                    sh "curl -v -u admin:admin1 --upload-file webapp/dist-${packageJSONVersion}.zip http://35.78.212.74:8081/repository/lmsapplication/"     
+            }
+            }
+          }
+
+      }
 }
