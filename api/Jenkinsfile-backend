@@ -24,7 +24,11 @@ pipeline {
                 }
             }
         }     
-        
+        stage('creating lmsnetwork')  {
+           steps {
+                 sh 'docker network create lmsnetwork'
+              }
+      }
         stage('Building the docker image') {
             steps {
                 sh 'cd api && docker build -t naveen1016/lms-backend .'
