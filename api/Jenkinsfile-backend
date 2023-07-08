@@ -1,23 +1,33 @@
 Jenkins file 
 pipeline {
     agent{
-       label 'docker'
+       label 'lms-slave'
     }
 
     environment {
 
-    DOCKERHUB_CREDENTIALS = credentials('dockeruser')
-     registry = "mubeen507/backend-lms"
-        registryCredential = 'dockeruser'
+    DOCKERHUB_CREDENTIALS = credentials('dockerhubcredentials')
+     registry = "naveen1016/lms-backend"
+        registryCredential = 'dockerhubcredentials'
         dockerImage = ''
     }
 
     stages {
-        
+
+         stage('pipeline status') {
+            steps {
+                script {
+                    slackSend channel: 'jenkins-notifications',
+                            color: '#ff8c00',
+                            message: 'lms-backend Pipeline has been Started',
+                            tokenCredentialId: 'jenkin-project'
+                }
+            }
+        }     
         
         stage('Building the docker image') {
             steps {
-                sh 'cd api && docker build -t mubeen507/backend-lms .'
+                sh 'cd api && docker build -t naveen1016/lms-backend .'
             }
         }
         stage('Logging into dockerhub account') {
@@ -27,12 +37,12 @@ pipeline {
         }
         stage('pushing the docker image into dockerhub') {
             steps {
-                  sh 'docker push mubeen507/backend-lms'
+                  sh 'docker push naveen1016/lms-backend'
             }
         }
         stage('Remove old docker images') {
              steps {
-                 sh 'docker rmi -f mubeen507/backend-lms'
+                 sh 'docker rmi -f naveen1016/lms-backend'
             }
         }
          stage('creating database container') {
@@ -44,8 +54,40 @@ pipeline {
          stage('Running the docker container') {
             steps {
                   sh 'docker container rm --force backend'
-                  sh 'docker run -d -p 8080:8080 --network lmsnetwork -e DATABASE_URL=postgresql://postgres:password@lmsdb:5432/postgres --name backend -e PORT=8080 -e MODE=local  mubeen507/backend-lms'
+                  sh 'docker run -d -p 8080:8080 --network lmsnetwork -e DATABASE_URL=postgresql://postgres:password@lmsdb:5432/postgres --name backend -e PORT=8080 -e MODE=local  naveen1016/lms-backend'
             }
         }
     }
+post {
+success {
+    script {
+        slackSend(
+            channel: 'jenkins-notifications',
+            color: 'good',
+            message: 'hi..CONGRATULATIONS backend job success !!! back_end build succeeded Thanks...naveen',
+            tokenCredentialId: 'jenkin-project'
+        )
+
+        emailext body: 'building lms application backend job got success check browser with ip adderss/api.  thankyou naveen',
+            recipientProviders: [developers()],
+            subject: 'build successed',
+            to: 'menaveen1016@gmail.com'
+    }
+}
+    failure {
+        script {
+            slackSend(
+                channel: 'jenkins-notifications',
+                color: 'danger',
+                message: 'back-end job failed. Please check the build logs for more details. Thanks...naveen',
+                tokenCredentialId: 'jenkin-project'
+
+            )
+            emailext body: 'building lms application backend job got failed check job configuration.',
+            recipientProviders: [developers()],
+            subject: 'build failed',
+            to: 'menaveen1016@gmail.com'
+        }
+    }
+}
 }
