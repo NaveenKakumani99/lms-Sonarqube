@@ -24,17 +24,7 @@ pipeline {
                 }
             }
         }     
-stage('creating lmsnetwork') {
-    steps {
-        script {
-            if (condition) {
-                sh 'docker network create lmsnetwork'
-            } else {
-                // Code to be executed if the condition is false
-            }
-        }
-    }
-}
+
         stage('Building the docker image') {
             steps {
                 sh 'cd api && docker build -t naveen1016/lms-backend .'
