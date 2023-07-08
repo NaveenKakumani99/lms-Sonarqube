@@ -92,7 +92,7 @@ success {
             )
             emailext body: 'building lms application frontend job got failed check job configuration.',
             recipientProviders: [developers()],
-            subject: 'build successed',
+            subject: 'build failed',
             to: 'menaveen1016@gmail.com'
         }
     }
