@@ -24,7 +24,19 @@ pipeline {
                 }
             }
         }     
-
+            stage('Check lmsnetwork') {
+                steps {
+                  script {
+            def networkExists = sh(script: "docker network inspect lmsnetwork", returnStatus: true)
+            if (networkExists == 0) {
+                echo "lmsnetwork already exists"
+            } else {
+                echo "lmsnetwork does not exist, creating..."
+                sh 'docker network create lmsnetwork'
+            }
+        }
+    }
+}
         stage('Building the docker image') {
             steps {
                 sh 'cd api && docker build -t naveen1016/lms-backend .'
