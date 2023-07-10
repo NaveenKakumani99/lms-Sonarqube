@@ -27,8 +27,15 @@ pipeline {
         stage('Manager Approval') {
             steps {
                 script {
-                    // Notify manager in Slack
-                    slackSend(channel: '# jenkins-notifications', message: 'Approval required for deployment. Please review and approve.')
+                    // Notify manager via Slack
+                    slackSend(channel: '#general', message: 'Approval required for deployment. Please review and approve.')
+                    
+                    // OR notify manager via Gmail
+                    mail(
+                        to: 'yoursureshb@gmail.com',
+                        subject: 'Deployment Approval Required',
+                        body: 'Approval required for deployment. Please review and respond.'
+                    )
                     
                     // Wait for manager approval
                     def approval = input(
