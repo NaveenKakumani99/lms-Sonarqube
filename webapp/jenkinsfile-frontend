@@ -28,7 +28,7 @@ pipeline {
     steps {
         script {
             // Notify Slack about the start of the job
-            slackSend(channel: 'jenkins-notifications', message: "Job started: ${env.JOB_NAME} (Build ${env.BUILD_NUMBER})", tokenCredentialId: 'jenkins-project')
+            slackSend(channel: 'jenkins-notifications', message: "Job started: lms-app-fe , (Build ${env.BUILD_NUMBER})", tokenCredentialId: 'jenkins-project')
 
             // Wait for approval from Slack
             def approval = input(
