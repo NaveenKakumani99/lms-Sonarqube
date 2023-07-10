@@ -28,7 +28,7 @@ pipeline {
          stage('sonarqube analysis') {
             steps {
                
-                sh 'docker container run --rm -e SONAR_HOST_URL="http://3.112.70.142:9000" -e SONAR_LOGIN="sqp_5552f71195d24db2bd3a3d4733c2fc932b3602b0" -v ".:/usr/src" sonarsource/sonar-scanner-cli -Dsonar.projectKey=lms'
+                sh 'docker container run --rm -e SONAR_HOST_URL="http://35.77.2.55:9000" -e SONAR_LOGIN="sqp_5552f71195d24db2bd3a3d4733c2fc932b3602b0" -v ".:/usr/src" sonarsource/sonar-scanner-cli -Dsonar.projectKey=lms'
             }
           
         }       
