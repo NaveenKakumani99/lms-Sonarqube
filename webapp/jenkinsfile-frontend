@@ -24,22 +24,25 @@ pipeline {
             }
         }
 
-         stage('Manager Approval') {
+        stage('Manager Approval') {
             steps {
                 script {
-                    def userInput = input(
-                        id: 'jenkin-project',
-                        message: 'Manager Approval Required. Please provide your decision:',
+                    // Notify manager in Slack
+                    slackSend(channel: '#general', message: 'Approval required for deployment. Please review and approve.')
+                    
+                    // Wait for manager approval
+                    def approval = input(
+                        id: 'manager-approval',
+                        message: 'Do you approve the deployment?',
                         parameters: [
-                            [$class: 'ChoiceParameterDefinition',
-                             choices: 'Approve\nReject',
-                             description: 'Approval Decision']
+                            [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Approve or reject the deployment']
                         ]
                     )
-                    if (userInput == 'Approve') {
-                        echo 'Manager approved the deployment.'
-                    } else if (userInput == 'Reject') {
-                        error 'Manager rejected the deployment.'
+                    
+                    if (approval) {
+                        echo 'Manager approved. Proceeding with deployment.'
+                    } else {
+                        error('Manager rejected. Deployment aborted.')
                     }
                 }
             }
