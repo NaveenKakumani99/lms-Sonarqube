@@ -24,36 +24,15 @@ pipeline {
             }
         }
 
-        stage('Manager Approval') {
+      stage('Approval') {
             steps {
-                script {
-                    // Notify manager via Slack
-                    slackSend(channel: '#general', message: 'Approval required for deployment. Please review and approve.')
-                    
-                    // OR notify manager via Gmail
-                    mail(
-                        to: 'yoursureshb@gmail.com',
-                        subject: 'Deployment Approval Required',
-                        body: 'Approval required for deployment. Please review and respond.'
-                    )
-                    
-                    // Wait for manager approval
-                    def approval = input(
-                        id: 'manager-approval',
-                        message: 'Do you approve the deployment?',
-                        parameters: [
-                            [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Approve or reject the deployment']
-                        ]
-                    )
-                    
-                    if (approval) {
-                        echo 'Manager approved. Proceeding with deployment.'
-                    } else {
-                        error('Manager rejected. Deployment aborted.')
+                 script{
+                timeout(time: 5,unit: "MINUTES"){
+                slackSend channel: ' jenkins-notifications', message: "slackSend 'started ${env.JOB_NAME}  (http://35.77.2.55:8080/job/lms-app-fe/${env.BUILD_NUMBER}/console)'",  tokenCredentialId: 'jenkins-project'
+                input message:'Approve to Deploy',ok: 'Yes'
                     }
-                }
+                    }
             }
-        }
 
          stage('sonarqube analysis') {
             steps {
