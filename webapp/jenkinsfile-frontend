@@ -24,7 +24,7 @@ pipeline {
             }
         }
 
- stage('Approval') {
+  stage('Approval') {
             steps {
                  script{
                 timeout(time: 5,unit: "MINUTES"){
@@ -33,6 +33,7 @@ pipeline {
                     }
                     }
             }
+         }
 
          stage('sonarqube analysis') {
             steps {
@@ -107,7 +108,7 @@ success {
     }
 }
 }
-}
+
 
       
 
