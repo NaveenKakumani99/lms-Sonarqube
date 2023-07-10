@@ -23,7 +23,27 @@ pipeline {
                 }
             }
         }
-        
+
+         stage('Manager Approval') {
+            steps {
+                script {
+                    def userInput = input(
+                        id: 'jenkin-project',
+                        message: 'Manager Approval Required. Please provide your decision:',
+                        parameters: [
+                            [$class: 'ChoiceParameterDefinition',
+                             choices: 'Approve\nReject',
+                             description: 'Approval Decision']
+                        ]
+                    )
+                    if (userInput == 'Approve') {
+                        echo 'Manager approved the deployment.'
+                    } else if (userInput == 'Reject') {
+                        error 'Manager rejected the deployment.'
+                    }
+                }
+            }
+        }
 
          stage('sonarqube analysis') {
             steps {
