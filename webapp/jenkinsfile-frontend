@@ -45,7 +45,7 @@ pipeline {
                 sh 'cd webapp && docker build -t naveen1016/lms-frontend .'
             }
         }
-        stage('Release LMS') {
+        stage('Nexus-Release LMS') {
             steps {
                 script {
                     echo "Releasing.."       
