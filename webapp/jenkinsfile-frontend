@@ -24,27 +24,15 @@ pipeline {
             }
         }
 
-   stage('Approval') {
+ stage('Approval') {
             steps {
-                script {
-                    def userInput = input(
-                        id: 'managerApproval',
-                        message: 'Manager Approval Required. Please provide your decision:',
-                        parameters: [
-                            [$class: 'ChoiceParameterDefinition',
-                             choices: 'Approve\nReject',
-                             description: 'Approval Decision']
-                        ]
-                    )
-                    if (userInput == 'Approve') {
-                        echo 'Manager approved the deployment.'
-                    } else if (userInput == 'Reject') {
-                        error 'Manager rejected the deployment.'
+                 script{
+                timeout(time: 5,unit: "MINUTES"){
+                slackSend channel: ' team-updates', message: "slackSend 'started ${env.JOB_NAME}  (http://35.77.2.55:8080/job/myjenkinspipeline2/${env.BUILD_NUMBER}/console)'", teamDomain: 'jenkinspipeline-group', tokenCredentialId: 'slacknew'
+                input message:'Approve to Deploy',ok: 'Yes'
                     }
-                }
+                    }
             }
-        }
-
 
          stage('sonarqube analysis') {
             steps {
