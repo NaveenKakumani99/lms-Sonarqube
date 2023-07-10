@@ -24,16 +24,31 @@ pipeline {
             }
         }
 
-      stage('Approval') {
-            steps {
-                 script{
-                timeout(time: 5,unit: "MINUTES"){
-                slackSend channel: ' jenkins-notifications', message: "slackSend 'started ${env.JOB_NAME}  (http://35.77.2.55:8080/job/lms-app-fe/${env.BUILD_NUMBER}/console)'",  tokenCredentialId: 'jenkins-project'
-                input message:'Approve to Deploy',ok: 'Yes'
-                    }
-                    }
+   stage('Approval') {
+    steps {
+        script {
+            // Notify Slack about the start of the job
+            slackSend(channel: 'jenkins-notifications', message: "Job started: ${env.JOB_NAME} (Build ${env.BUILD_NUMBER})", tokenCredentialId: 'jenkins-project')
+
+            // Wait for approval from Slack
+            def approval = input(
+                id: 'slack-approval',
+                message: 'Approve to Deploy',
+                parameters: [
+                    [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Approve or reject the deployment']
+                ]
+            )
+            
+            if (approval) {
+                echo 'Deployment approved. Proceeding with deployment.'
+                // Add your deployment steps here
+            } else {
+                error('Deployment rejected. Aborting the deployment.')
             }
-     }
+        }
+    }
+}
+
 
          stage('sonarqube analysis') {
             steps {
